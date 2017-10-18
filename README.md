@@ -9,4 +9,4 @@ The buffer overflow is one of the most persistent and dangerous bugs in the hist
 5. Navigate inside the respository with "cd overflow". 
 6. Compile the vulnerable binary with "gcc -o vuln vuln.c -fno-stack-protector -z execstack -z norelro". 
 7. NOTE! The next step disables a crucial security feature on your system. I'd recommend disconnecting that computer from the Internet (in VirtualBox, select "Host-Only" at the Network setting) and reenabling the feature before reconnecting it. 
-8. Disable ASLR with "DISABLE ASLR". 
+8. Disable ASLR with "echo 0 > /proc/sys/kernel/randomize_va_space". 
