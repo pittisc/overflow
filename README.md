@@ -1,4 +1,4 @@
-#Exploiting a Stack-Based Buffer Overflow with No Mitigations
+# Exploiting a Stack-Based Buffer Overflow with No Mitigations
 
 The buffer overflow is one of the most persistent and dangerous bugs in the history of computing, and while computers in 2017 have a few more protections than those in 1997, the underlying problem is still pretty much the same. By the end of this exercise, you will have successfully exploited a stack-based buffer overflow to gain a local shell on a modern 64-bit Linux system. 
 
