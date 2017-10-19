@@ -12,20 +12,24 @@ git clone https://github.com/longld/peda.git ~/peda
 echo "source ~/peda/peda.py" >> ~/.gdbinit 
 echo "DONE! debug your program with gdb and enjoy" 
 ```
-4. Clone this repository locally 
+4.5. You may want to test that PEDA loads properly by running "gdb" and looking for error messages. If you receive any, it may due to you using a minimal or old version of GDB that doesn't support Python sourcing. You can fix both by running
+```
+apt install git && apt update git
+```
+5. Clone this repository locally 
 ```
 git clone https://github.com/pittisc/overflow.git 
 ``` 
-5. Navigate inside the respository 
+6. Navigate inside the respository 
 ```
 cd overflow
 ```
-6. Compile the vulnerable binary with stack canaries, NX, and relro disabled 
+7. Compile the vulnerable binary with stack canaries, NX, and relro disabled 
 ```
 gcc -o vuln vuln.c -fno-stack-protector -z execstack -z norelro
 ``` 
-7. NOTE! The next step disables a crucial security feature on your system. I'd recommend disconnecting that computer from the Internet (in VirtualBox, select "Host-Only" at the Network setting) and reenabling the feature before reconnecting it. 
-8. Disable ASLR temporarily 
+8. NOTE! The next step disables a crucial security feature on your system. I'd recommend disconnecting that computer from the Internet (in VirtualBox, select "Host-Only" at the Network setting) and reenabling the feature before reconnecting it. 
+9. Disable ASLR temporarily 
 ```
 echo 0 > /proc/sys/kernel/randomize_va_space
 ```
