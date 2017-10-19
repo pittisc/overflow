@@ -6,6 +6,10 @@ The buffer overflow is one of the most persistent and dangerous bugs in the hist
 1. Open a 64-bit Linux environment. The Kali VM we've been using in VirtualBox will work perfectly. 
 2. Ensure that your Linux environment can access the Internet. In VirtualBox, open Settings, go to Network, and select NAT. 
 3. If Git is not installed, install it with "sudo apt install git", "sudo apt-get install git", or whatever if appropriate for your system. 
+4. Install PEDA, a useful GDB extension, with the following commands
+	git clone https://github.com/longld/peda.git ~/peda
+    echo "source ~/peda/peda.py" >> ~/.gdbinit
+    echo "DONE! debug your program with gdb and enjoy"
 4. Clone this repository locally with "git clone LINK". 
 5. Navigate inside the respository with "cd overflow". 
 6. Compile the vulnerable binary with "gcc -o vuln vuln.c -fno-stack-protector -z execstack -z norelro". 
