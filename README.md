@@ -37,7 +37,7 @@ python -c 'print "A"*24'
 python -c 'print "AB"*10 + "C"*5' 
 python -c 'print -c "\x41\x42\x43\x44"'
 ``` 
-Take a look at the ASCII table with "man ascii" and ensure you undrstand why the last command gives the output it does. (Pay attention to the single and double quotes- it's important to use them as in the examples, with the single quotes on the outside of the expression and the double quotes on the inside surrounding strings) 
+Take a look at the ASCII table with "man ascii" and ensure you undrstand why the last command gives the output it does. (Pay attention to the single and double quotes- it's important to use them as in the examples, with the single quotes on the outside of the expression and the double quotes on the inside surrounding strings)   
 2. Execute the vulnerable program a few times and get a feel for its basic operation. Examine the contents of its source with cat and take a look at how it works under the hood. Specifically, look at how the program handles your input, and what restrictions are in place on that input (or aren't, but should be...) 
 ```
 ./vuln 
