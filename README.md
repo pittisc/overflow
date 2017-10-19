@@ -30,7 +30,7 @@ gcc -o vuln vuln.c -fno-stack-protector -z execstack -z norelro
 echo 0 > /proc/sys/kernel/randomize_va_space
 ```
 
-## Take Control of RIP
+## Reconnaissance
 1. Python can be used to quickly generate input to the vulnerable binary. At the command line, execute a few commands using the -c flag to output various strings 
 ```
 python -c 'print "A"*24' 
@@ -43,8 +43,12 @@ Take a look at the ASCII table with "man ascii" and ensure you undrstand why the
 ./vuln 
 cat vuln.c 
 ```
-3. Try sending the output of one of your Python commands directly to the input of the ./vuln binary by using the Bash pipe "|" 
+3. Try sending the output of one of your Python commands directly to the input of the ./vuln binary by using the Bash construct $()  
 ```
-python -c 'print "A"*24' | ./vuln 
+./vuln $(python -c 'print "A"*24')
 ```
 4. This program has a bug that causes it to accept and store inputs much larger than it has the ability to handle. Modify the Python command to send progressively larger inputs to the binary until you receive a "Segmentation Fault" error message.
+
+## Exploitation
+1. There's a Python file included in here. This file can exploit the vulnerable program using established methods of taking control of RIP and redirecting it to the beginning of the payload, which consists of a NOP slide down to shell-spawning shellcode. If execution is successful, you will receive a shell with the privileges of the user who compiled the program. 
+2. Two things must be done to make this exploit functional. The offset must be changed to a value that will cause the payload to overwrite RIP with the retaddr, and a workable retaddr must be determined. There is only one right answer for the offset, but the retaddr can be any value that points to memory near the beginning (but probably not exactly at the beginning) of the NOP slide. 
