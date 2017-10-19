@@ -51,4 +51,24 @@ cat vuln.c
 
 ## Exploitation
 1. There's a Python file included in here. This file can exploit the vulnerable program using established methods of taking control of RIP and redirecting it to the beginning of the payload, which consists of a NOP slide down to shell-spawning shellcode. If execution is successful, you will receive a shell with the privileges of the user who compiled the program. 
-2. Two things must be done to make this exploit functional. The offset must be changed to a value that will cause the payload to overwrite RIP with the retaddr, and a workable retaddr must be determined. There is only one right answer for the offset, but the retaddr can be any value that points to memory near the beginning (but probably not exactly at the beginning) of the NOP slide. 
+2. Two things must be done to make this exploit functional. The offset must be changed to a value that will cause the payload to overwrite RIP with the retaddr, and a workable retaddr must be determined. There is only one right answer for the offset, but the retaddr can be any value that points to memory near the beginning (but probably not exactly at the beginning) of the NOP slide.
+3. The debugger GDB can be used to obtain information about the program as it executes, and the PEDA extension will make GDB much easier to use. To load .\vuln into the debugger, just run
+```
+gdb ./vuln
+```
+4. You should now be greeted with a "gdb-peda$" prompt. Verify that all security mitigations are disabled with
+```
+checksec
+```
+5. PEDA's "pattern create" feature can be used to determine the proper offset to overwrite RIP. First, create a 512-byte pattern and save it to a file "arg" (or whatever you want to call it) 
+```
+pattern create 512 arg
+```
+6. Next, run the binary, pass the contents of "arg" as the input argument, and observe a crash 
+```
+run $(cat arg)
+
+```
+7. Use the corresponding "pattern search" feature to find the offset within the pattern that RSP, the stack pointer, currently points to. This is the offset that you will want to use to overwrite RIP. This is due to the fact that RIP segfaulted on a "ret" instruction, which would have placed the value at the top of the stack into RIP if that value had been a valid address. 
+8. Finally, knowing that your payload is stored on the stack (this is a stack-based attack, after all) at a certain offset, calculate the address of the base of the string by subtracting the offset from the current value in the stack pointer, $RSP. 
+9. Armed with this knowledge, you should be able to modify the included exploit template to exploit the vulnerability and spawn a shell. Have fun...   
